@@ -1,0 +1,12 @@
+# private enviroment .env file
+.env
+
+# compiled local binary file
+greeter_api*
+greeter_api*.exe
+
+# simple db txt file
+db.txt
+
+# test temp directory and files
+/test/temp/
