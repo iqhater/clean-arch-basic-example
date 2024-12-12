@@ -1,9 +1,11 @@
 package controller
 
 import (
-	srv "clean_arch_super_simple_example/internal/usecase"
-	"clean_arch_super_simple_example/pkg"
+	srv "clean_arch_basic_example/internal/usecase"
+	"clean_arch_basic_example/pkg"
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/google/uuid"
@@ -12,6 +14,11 @@ import (
 type contextKey string
 
 const contextNameKey contextKey = "name"
+
+type ResponsePublicGreetDTO struct {
+	RequestID uuid.UUID `json:"request_id"`
+	Title     string    `json:"greeting"`
+}
 
 // controller/handler
 type GreetController struct {
@@ -29,21 +36,37 @@ func NewGreetController(greetService *srv.GreetService) *GreetController {
 func (g *GreetController) GreetHandler(w http.ResponseWriter, req *http.Request) {
 
 	// add unique request id from context
-	reqID, ok := req.Context().Value(pkg.RequestIDKey).(uuid.UUID)
-	if !ok || reqID == uuid.Nil {
+	requestID, ok := req.Context().Value(pkg.RequestIDKey).(uuid.UUID)
+	if !ok || requestID == uuid.Nil {
 		fmt.Fprintln(w, "this a request without requestID")
 		return
 	}
-	fmt.Fprintf(w, "request id is %s\n", reqID)
 
 	// name and method request validations are located in separate validateRequest middleware
 	// get id and name params from context
 	name := req.Context().Value(contextNameKey).(string)
 
-	// w.Header().Add("Content-Type", "application/json")
+	w.Header().Add("Content-Type", "application/json")
 
-	output := g.greetService.GetGreet(name)
+	result, err := g.greetService.GetGreet(name)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusUnprocessableEntity)
+		return
+	}
+
+	// convert to dto output
+	output := ResponsePublicGreetDTO{
+		RequestID: requestID,
+		Title:     result.Title,
+	}
+
+	outputJson, err := json.Marshal(output)
+	if err != nil {
+		log.Println(err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
 	// send result response
-	w.Write([]byte(output))
+	w.Write(outputJson)
 }

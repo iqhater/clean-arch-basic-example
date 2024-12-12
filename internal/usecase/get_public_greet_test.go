@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	infra "clean_arch_super_simple_example/internal/infrastructure"
+	infra "clean_arch_basic_example/internal/infrastructure"
 	"testing"
 )
 
@@ -14,10 +14,10 @@ var _ infra.GreeterRepo = (*GreetMockDB)(nil)
 type GreetMockDB struct{}
 
 // mock implementation without db, only mock title
-func (_ *GreetMockDB) GetGreet() *infra.UserGreetPublic {
+func (_ *GreetMockDB) GetGreet() (*infra.UserGreetPublic, error) {
 	return &infra.UserGreetPublic{
 		Title: GREET_TITLE,
-	}
+	}, nil
 }
 
 func TestGetGreetValid(t *testing.T) {
@@ -27,10 +27,10 @@ func TestGetGreetValid(t *testing.T) {
 	service := NewGreetService(repo)
 
 	// act
-	greeting := service.GetGreet("Bug Testor")
+	greeting, _ := service.GetGreet("Bug Testor")
 
 	// assert
-	if greeting != GREET_TITLE+" Bug Testor!" {
+	if greeting.Title != GREET_TITLE+" Bug Testor!" {
 		t.Errorf("Expected: %s, got: %s", GREET_TITLE+" Bug Testor!", greeting)
 	}
 }

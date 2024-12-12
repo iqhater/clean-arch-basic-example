@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"clean_arch_super_simple_example/pkg/headers/status"
+	"clean_arch_basic_example/pkg/headers/status"
 	"fmt"
 	"net/http"
 	"os"

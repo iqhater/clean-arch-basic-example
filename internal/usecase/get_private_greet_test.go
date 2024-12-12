@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	infra "clean_arch_super_simple_example/internal/infrastructure"
+	infra "clean_arch_basic_example/internal/infrastructure"
 	"errors"
 	"sync"
 	"testing"

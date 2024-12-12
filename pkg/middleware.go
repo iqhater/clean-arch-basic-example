@@ -18,13 +18,3 @@ func RequestID(next http.HandlerFunc) http.HandlerFunc {
 		next.ServeHTTP(w, req.WithContext(ctx))
 	})
 }
-
-/* func handlerThatUsesRequestID(w http.ResponseWriter, req *http.Request) {
-
-	reqID, ok := req.Context().Value(RequestIDKey).(uuid.UUID)
-	if !ok || reqID == uuid.Nil {
-		fmt.Fprintln(w, "this a request without requestID")
-		return
-	}
-	fmt.Fprintf(w, "request id is %s\n", reqID)
-} */

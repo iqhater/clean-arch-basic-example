@@ -1,7 +1,7 @@
 package controller
 
 import (
-	srv "clean_arch_super_simple_example/internal/usecase"
+	srv "clean_arch_basic_example/internal/usecase"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -10,7 +10,7 @@ import (
 
 const contextIDKey contextKey = "id"
 
-type ResponseGreetDTO struct {
+type ResponsePrivateGreetDTO struct {
 	ID      int    `json:"id"`
 	Title   string `json:"greeting"`
 	Counter int    `json:"total_greetings"`
@@ -52,7 +52,7 @@ func (g *GreetPrivateController) GreetPrivateHandler(w http.ResponseWriter, req 
 	}
 
 	// convert to dto output
-	output := ResponseGreetDTO{
+	output := ResponsePrivateGreetDTO{
 		ID:      result.ID,
 		Title:   result.Title,
 		Counter: int(result.Counter),

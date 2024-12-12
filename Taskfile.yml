@@ -1,0 +1,112 @@
+version: '3'
+
+# Global environment variables
+env:
+
+  # Go parameters
+  GOARCH: amd64
+  GOBUILD: go build
+  GOCLEAN: go clean
+  GOTEST: go test
+  GOTOOL: go tool
+  GOGET: go get
+  GOMOD: go mod
+  GOINST: go install
+  PLATFORM: windows.exe
+
+  MODULE_NAME: greeter_api
+
+  # Binary name
+  BINARY_NAME: greeter_api
+
+  # App entrypoint path
+  APP_ENTRYPOINT: ./cmd/greeter
+
+# Global variables
+# vars:
+#   PLATFORMS: ["darwin", "linux", "windows.exe"]
+
+tasks:
+  
+  # Debug for test Taskfile output
+  debug:
+    cmds:
+      - echo "⚙️ Debug info"
+      - if [ $(go env GOOS) == "windows" ]; then echo "Windows OK!"; fi
+
+  # Install dependencies
+  install:
+    silent: true
+    cmds:
+      - echo "📦 Install Dependencies"
+      - go mod tidy
+
+  # Build app
+  build:
+    silent: true
+    cmds:
+      - $GOBUILD -o ${BINARY_NAME}_${PLATFORM} $APP_ENTRYPOINT
+      - echo "📦 Build Done"
+
+  # Build app for all platforms
+  build-all:
+    cmds:
+      - for: ["darwin", "linux", "windows.exe"]
+        cmd: $GOBUILD -o ${BINARY_NAME}_{{ .ITEM }} $APP_ENTRYPOINT
+      - echo "📦 Builds Done"
+
+  # Build and run
+  run:
+    silent: true
+    deps: [build]
+    cmds:
+      - echo "🚀 Running App"
+      - ./${BINARY_NAME}_${PLATFORM}
+
+  # Build Docker Image
+  build:docker:
+    silent: true
+    cmds:
+      - echo "📦 Build & Tag Docker Image"
+      - docker build -t ${BINARY_NAME}_local ./deployments/.
+      - docker tag ${BINARY_NAME}_local:latest ${BINARY_NAME}_local:staging
+      - docker-compose -f ./deployments/docker-compose.yml up -d
+
+  # Run in docker
+  run:docker:
+    silent: true
+    deps: [build:docker]
+    cmds:
+      - echo "🚀 Running App in Docker"
+      - docker-compose -f ./deployments/docker-compose.yml up -d
+
+  # Clean app binaries
+  clean:
+    cmds:
+      - echo "🧹 Clean App Binaries"
+      - for: ["darwin", "linux", "windows"]
+        cmd: if [ $(go env GOOS) == {{ .ITEM }} ]; then rm ${BINARY_NAME}_${PLATFORM}; fi 
+
+  # Run unit tests
+  test:
+    silent: true
+    cmds:
+      - echo "🧪 Running Unit Tests" 
+      - go test -v -race -cover -count=1 ./...
+      
+      # clear temp test files. comment if you want to keep them
+      - rm -rf ./test/temp/**
+
+  # Lint
+  lint:
+    silent: true
+    cmds:
+      - echo "🔦 Running Code Linter"
+      - golangci-lint run
+
+  # Arch linter
+  lint:arch:
+    silent: true
+    cmds:
+      - echo "🔦📐 Running Arch Linter"
+      - go-arch-lint check

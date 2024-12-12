@@ -8,7 +8,7 @@ type StatusHTTP struct {
 	StatusCode int
 }
 
-// WriteHeader method wrties status code in http header
+// WriteHeader method writes status code in http header
 func (sr *StatusHTTP) WriteHeader(statusCode int) {
 	sr.StatusCode = statusCode
 	sr.ResponseWriter.WriteHeader(statusCode)

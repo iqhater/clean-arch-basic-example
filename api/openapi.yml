@@ -1,0 +1,155 @@
+openapi: 3.1.0
+info:
+  title: Greet Service API
+  description: Straightforward greetings API service for demo purposes. Built with love by iqhater.
+  version: 1.0.0
+  termsOfService: 'https://redocly.com/subscription-agreement/'
+  contact:
+    email: iqhater@yandex.ru
+    url: "https://redocly.com/docs/cli/"
+  license:
+    name: MIT
+    url: "https://opensource.org/license/mit/"
+servers:
+  - url: "https://dev.envdev.space/docs/openapi/greet-api"
+paths:
+  /greet:
+    get:
+      summary: Get greeting
+      description: Get user public greeting.
+      operationId: getPublicGreet
+      tags:
+        - Operations
+      parameters:
+        - name: name
+          in: query
+          description: Greet name
+          schema:
+            type: string
+            format: string
+            example: Bug Testor
+          required: true
+      responses:
+        "200":
+          description: Success.
+          content:
+            # text/plain:
+              # schema:
+                # response: "request id is b18b1c02-9a7f-4167-803d-f555a02aa81e\n👋 Hello Gopher Arch!"
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GreetPublic"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+        "500":
+          $ref: '#/components/responses/ServerError'
+  /greet/{Id}:
+    get:
+      summary: Get private greeting
+      description: Get user private greeting with counter.
+      operationId: getPrivateGreet
+      tags:
+        - Operations
+      parameters:
+        - name: id
+          in: query
+          description: User ID
+          schema:
+            type: integer
+            format: number
+            example: 1
+          required: true
+        - name: name
+          in: query
+          description: Greet name
+          schema:
+            type: string
+            format: string
+            example: Bug Testor
+          required: true
+      responses:
+        "200":
+          description: Success.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GreetPrivate"
+        "400":
+          $ref: '#/components/responses/BadRequest'
+        "404":
+          $ref: '#/components/responses/NotFound'
+        "405":
+          $ref: '#/components/responses/MethodNotAllowed'
+        "422":
+          $ref: '#/components/responses/NotProcessableEntity'
+        "500":
+          $ref: '#/components/responses/ServerError'
+
+components:
+  schemas:
+    GreetPublic:
+      description: Response for a public greeting.
+      properties:
+        request_id:
+          type: uuid
+          example: "request id is 8e63e96e-ff93-4c47-8949-fca9cf8d7826"
+        greeting:
+          type: string
+          example: 👋 Hello Gopher name!
+    GreetPrivate:
+      description: Response for a private greeting.
+      properties:
+        id:
+          type: integer
+          example: 1
+        greeting:
+          type: string
+          example: 👋 Hello Gopher name!
+        total_greetings:
+          type: integer
+          example: 3
+    
+  # securitySchemes:
+  #   MuseumPlaceholderAuth:
+  #     type: http
+  #     scheme: basic
+  responses:
+    BadRequest:
+      description: Bad request.
+      # content:
+      #   application/problem+json:
+      #     schema:
+      #       $ref: '#/components/schemas/BadRequest'
+    NotFound:
+      description: Not found.
+      # content:
+      #   application/problem+json:
+      #     schema:
+      #       $ref: '#/components/schemas/Error'
+    MethodNotAllowed:
+      description: Method not allowed.
+      # content:
+      #   application/problem+json:
+      #     schema:
+      #       $ref: '#/components/schemas/MethodNotAllowed'
+    NotProcessableEntity:
+      description: Not processable entity.
+      # content:
+      #   application/problem+json:
+      #     schema:
+      #       $ref: '#/components/schemas/UnprocessableEntity'
+    ServerError:
+      description: Internal Server Error.
+      # content:
+      #   application/problem+json:
+      #     schema:
+      #       $ref: '#/components/schemas/ServerError'
+tags:
+  - name: Operations
+    description: Operational information with greetings.
+security:
+  - GreeterPlaceholderAuth: []

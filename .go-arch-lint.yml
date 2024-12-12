@@ -1,0 +1,40 @@
+version: 3
+workdir: internal
+allow:
+  depOnAnyVendor: false
+
+components:
+  main: { in: ../cmd/greeter }
+  suite:  { in: / }
+  controller: { in: controller/ }
+  usecase:  { in: usecase/ }
+  infrastructure: { in: infrastructure/ }
+
+vendors:
+  shared: { in: [clean_arch_basic_example/pkg/**, github.com/google/uuid] }
+
+commonVendors:
+  - shared
+
+deps:
+  main:
+    mayDependOn:
+      - suite
+
+  suite:
+    mayDependOn:
+      - controller
+      - usecase
+      - infrastructure
+    canUse:
+      - shared
+
+  controller:
+    mayDependOn:
+      - usecase
+    canUse:
+      - shared
+
+  usecase:
+    mayDependOn:
+      - infrastructure

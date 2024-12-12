@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	infra "clean_arch_super_simple_example/internal/infrastructure"
+	infra "clean_arch_basic_example/internal/infrastructure"
 )
 
 // static check interface implementation
@@ -9,7 +9,7 @@ var _ GreeterService = (*GreetService)(nil)
 
 // usecase/service
 type GreeterService interface {
-	GetGreet(name string) string
+	GetGreet(name string) (*infra.UserGreetPublic, error)
 }
 
 // service implementation
@@ -25,8 +25,11 @@ func NewGreetService(greetRepo infra.GreeterRepo) *GreetService {
 }
 
 // get greeting implementation
-func (g *GreetService) GetGreet(name string) string {
+func (g *GreetService) GetGreet(name string) (*infra.UserGreetPublic, error) {
 
 	// business logic here. concatinate our "greeting" and user "name"
-	return g.greetRepo.GetGreet().Title + " " + name + "!"
+	publicGreeting, err := g.greetRepo.GetGreet()
+	publicGreeting.Title = publicGreeting.Title + " " + name + "!"
+
+	return publicGreeting, err
 }

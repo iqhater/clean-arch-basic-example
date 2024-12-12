@@ -1,25 +1,24 @@
 package internal
 
 import (
-	ctrl "clean_arch_super_simple_example/internal/controller"
-	infra "clean_arch_super_simple_example/internal/infrastructure"
-	srv "clean_arch_super_simple_example/internal/usecase"
-	"clean_arch_super_simple_example/pkg"
-	"clean_arch_super_simple_example/pkg/logger"
+	ctrl "clean_arch_basic_example/internal/controller"
+	infra "clean_arch_basic_example/internal/infrastructure"
+	srv "clean_arch_basic_example/internal/usecase"
+	"clean_arch_basic_example/pkg"
+	"clean_arch_basic_example/pkg/logger"
 	"fmt"
 	"net/http"
 )
 
-// config
-const DB_FILENAME = "db.txt"
-const HTTP_PORT = "8080"
-
 // init
 func Run() {
 
+	// init config
+	cfg := NewConfig()
+
 	// repo/db init
-	repo := infra.NewGreetRepository(DB_FILENAME)
-	repoWithCounter := infra.NewPrivateGreetRepository(DB_FILENAME)
+	repo := infra.NewGreetRepository(cfg.DB_FILENAME)
+	repoWithCounter := infra.NewPrivateGreetRepository(cfg.DB_FILENAME)
 
 	// service init
 	service := srv.NewGreetService(repo)
@@ -34,6 +33,6 @@ func Run() {
 	http.HandleFunc("/greet/{id}", logger.Log(ctrl.ValidateRequest(controllerWithCounter.GreetPrivateHandler)))
 
 	// server init
-	fmt.Printf("🌐 Clean Arch Example API server started on port: %s\n", HTTP_PORT)
-	http.ListenAndServe(":"+HTTP_PORT, nil)
+	fmt.Printf("🌐 Clean Arch Example API server started on port: %s\n", cfg.HTTP_PORT)
+	http.ListenAndServe(":"+cfg.HTTP_PORT, nil)
 }

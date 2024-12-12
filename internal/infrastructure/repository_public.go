@@ -11,7 +11,7 @@ var _ GreeterRepo = (*GreetFileDB)(nil)
 
 // repository
 type GreeterRepo interface {
-	GetGreet() *UserGreetPublic
+	GetGreet() (*UserGreetPublic, error)
 }
 
 // db implementation
@@ -27,10 +27,10 @@ func NewGreetRepository(db string) *GreetFileDB {
 }
 
 // get from file/db implementation
-func (db *GreetFileDB) GetGreet() *UserGreetPublic {
+func (db *GreetFileDB) GetGreet() (*UserGreetPublic, error) {
 	return &UserGreetPublic{
 		Title: string(readDataFromFile(db.path)),
-	}
+	}, nil
 }
 
 func readDataFromFile(path string) []byte {
