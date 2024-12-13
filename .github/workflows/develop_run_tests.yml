@@ -1,0 +1,33 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+
+jobs:
+  run_tests:
+    strategy:
+      matrix:
+        go-version: [1.23.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Install Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup environments
+        env:
+          HTTP_PORT: ${{ secrets.HTTP_PORT}}
+          DB_FILENAME: ${{ secrets.DB_FILENAME }}
+        run: |
+          echo "HTTP_PORT=$HTTP_PORT" >> .env
+          echo "DB_FILENAME=$DB_FILENAME" >> .env
+          
+      - name: Check go mod
+        run: go mod tidy
+
+      - name: Run tests and show coverage
+        run: go test -v -race -cover -count=1 ./...
