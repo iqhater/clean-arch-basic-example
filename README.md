@@ -111,16 +111,9 @@ Prepare some useful tools for project development
    task install
    ```
 
-3. Change git remote url to avoid accidental pushes to base project
+3. Add `.env` file to project root. See `.env.example`
 
-   ```sh
-   git remote set-url origin iqhater/clean-arch-basic-example
-   git remote -v # confirm the changes
-   ```
-
-4. Add `.env` file to project root. See `.env.example`
-
-5. *Optional Fel free to edit `Taskfile` binary name, module name and entrypoint path if you wish.
+4. *Optional Feel free to edit `Taskfile` binary name, module name and entrypoint path if you wish.
 
    ```yml
     MODULE_NAME: greeter_api
@@ -132,7 +125,7 @@ Prepare some useful tools for project development
     APP_ENTRYPOINT: ./cmd/greeter
    ```
 
-6. Build and run project
+5. Build and run project
 
    ```sh
    task run
