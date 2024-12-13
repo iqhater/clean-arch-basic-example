@@ -33,9 +33,6 @@ paths:
         "200":
           description: Success.
           content:
-            # text/plain:
-              # schema:
-                # response: "request id is b18b1c02-9a7f-4167-803d-f555a02aa81e\n👋 Hello Gopher Arch!"
             application/json:
               schema:
                 $ref: "#/components/schemas/GreetPublic"
@@ -96,7 +93,7 @@ components:
       properties:
         request_id:
           type: uuid
-          example: "request id is 8e63e96e-ff93-4c47-8949-fca9cf8d7826"
+          example: "8e63e96e-ff93-4c47-8949-fca9cf8d7826"
         greeting:
           type: string
           example: 👋 Hello Gopher name!
@@ -113,41 +110,17 @@ components:
           type: integer
           example: 3
     
-  # securitySchemes:
-  #   MuseumPlaceholderAuth:
-  #     type: http
-  #     scheme: basic
   responses:
     BadRequest:
       description: Bad request.
-      # content:
-      #   application/problem+json:
-      #     schema:
-      #       $ref: '#/components/schemas/BadRequest'
     NotFound:
       description: Not found.
-      # content:
-      #   application/problem+json:
-      #     schema:
-      #       $ref: '#/components/schemas/Error'
     MethodNotAllowed:
       description: Method not allowed.
-      # content:
-      #   application/problem+json:
-      #     schema:
-      #       $ref: '#/components/schemas/MethodNotAllowed'
     NotProcessableEntity:
       description: Not processable entity.
-      # content:
-      #   application/problem+json:
-      #     schema:
-      #       $ref: '#/components/schemas/UnprocessableEntity'
     ServerError:
       description: Internal Server Error.
-      # content:
-      #   application/problem+json:
-      #     schema:
-      #       $ref: '#/components/schemas/ServerError'
 tags:
   - name: Operations
     description: Operational information with greetings.

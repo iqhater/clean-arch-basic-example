@@ -66,5 +66,8 @@ func (g *GreetPrivateController) GreetPrivateHandler(w http.ResponseWriter, req 
 	}
 
 	// send result response
-	w.Write(outputJson)
+	_, err = w.Write(outputJson)
+	if err != nil {
+		log.Printf("Write failed: %v\n", err)
+	}
 }

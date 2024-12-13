@@ -7,6 +7,7 @@ import (
 	"clean_arch_basic_example/pkg"
 	"clean_arch_basic_example/pkg/logger"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -34,5 +35,5 @@ func Run() {
 
 	// server init
 	fmt.Printf("🌐 Clean Arch Example API server started on port: %s\n", cfg.HTTP_PORT)
-	http.ListenAndServe(":"+cfg.HTTP_PORT, nil)
+	log.Fatal(http.ListenAndServe(":"+cfg.HTTP_PORT, nil))
 }

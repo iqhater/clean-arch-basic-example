@@ -6,7 +6,8 @@ greeter_api*
 greeter_api*.exe
 
 # simple db txt file
-db.txt
+# !don't forget to uncomment your db in prod!
+# db.txt
 
 # test temp directory and files
 /test/temp/
