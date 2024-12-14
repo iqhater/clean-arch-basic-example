@@ -140,6 +140,37 @@ Prepare some useful tools for project development
 Clean arch data flow concept schema
 [![Clean Arch Schema Concept][schema-concept]](https://bloghugocoutinho.wordpress.com/wp-content/uploads/2020/05/cleanarchitecture-1.jpg)
 
+#### Request public greeting example
+
+```sh
+curl "http://localhost:8080/greet?name=Bob"
+```
+
+#### Response
+
+```json
+{
+  "request_id":"1ddb50f2-6fde-4fda-9d5c-51a23fcaa935",
+  "greeting":"👋 Hello Gopher Bob!"
+}
+```
+
+#### Request private greeting example
+
+```sh
+curl "http://localhost:8080/greet/1?name=Bob"
+```
+
+#### Response with counter
+
+```json
+{
+  "id":1,
+  "greeting":"👋 Hello Gopher Bob!",
+  "total_greetings":3
+}
+```
+
 ### Taskfile useful commands
 
 Run all tests
