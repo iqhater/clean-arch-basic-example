@@ -18,6 +18,7 @@
 -->
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
+[![Tests][tests-shield]][tests-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -215,6 +216,8 @@ Project Link: [https://github.com/iqhater/clean-arch-basic-example](https://gith
 [issues-url]: https://github.com/iqhater/clean-arch-basic-example/issues
 [license-shield]: https://img.shields.io/github/license/iqhater/clean-arch-basic-example.svg?style=for-the-badge
 [license-url]: https://github.com/iqhater/clean-arch-basic-example/blob/main/LICENSE.txt
+[tests-url]: https://github.com/iqhater/clean-arch-basic-example/actions/workflows/develop_run_tests.yml/badge.svg
+[tests-shield]: https://github.com/iqhater/clean-arch-basic-example/actions/workflows/develop_run_tests.yml/badge.svg
 [product-screenshot]: go-arch-lint-graph.svg
 [schema-concept]: clean_arch_concept_go_vector.svg
 [go.dev]: https://img.shields.io/badge/golang-00ADD8?style=for-the-badge&logo=go&logoColor=white
