@@ -4,7 +4,5 @@ services:
     container_name: greeter-api
     env_file:
       - ../.env
-    volumes:
-      - ../greeter:/greeter
     ports:
       - "4242:4242"
