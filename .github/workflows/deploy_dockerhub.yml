@@ -58,5 +58,6 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v6
         with:
+          file: ./deployments/Dockerfile
           push: true
           tags: iqhater/greeter_api:latest
