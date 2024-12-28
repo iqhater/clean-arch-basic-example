@@ -3,6 +3,7 @@ package controller
 import (
 	srv "clean_arch_basic_example/internal/usecase"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -41,7 +42,11 @@ func (g *GreetPrivateController) GreetPrivateHandler(w http.ResponseWriter, req 
 
 	// name and method request validations are located in separate validateRequest middleware
 	// get id and name params from context
-	name := req.Context().Value(contextNameKey).(string)
+	name, ok := req.Context().Value(contextNameKey).(string)
+	if !ok {
+		fmt.Fprintln(w, "this a request without name")
+		return
+	}
 
 	w.Header().Add("Content-Type", "application/json")
 

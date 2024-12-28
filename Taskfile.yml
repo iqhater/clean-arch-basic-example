@@ -96,7 +96,7 @@ tasks:
       
       # clear temp test files. comment if you want to keep them
       - rm -rf ./test/temp/**
-
+ 
   # Lint
   lint:
     silent: true

@@ -44,7 +44,11 @@ func (g *GreetController) GreetHandler(w http.ResponseWriter, req *http.Request)
 
 	// name and method request validations are located in separate validateRequest middleware
 	// get id and name params from context
-	name := req.Context().Value(contextNameKey).(string)
+	name, ok := req.Context().Value(contextNameKey).(string)
+	if !ok {
+		fmt.Fprintln(w, "this a request without name")
+		return
+	}
 
 	w.Header().Add("Content-Type", "application/json")
 
