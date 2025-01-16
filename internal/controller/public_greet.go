@@ -2,7 +2,7 @@ package controller
 
 import (
 	srv "clean_arch_basic_example/internal/usecase"
-	"clean_arch_basic_example/pkg"
+	mid "clean_arch_basic_example/pkg/middleware"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -36,7 +36,7 @@ func NewGreetController(greetService *srv.GreetService) *GreetController {
 func (g *GreetController) GreetHandler(w http.ResponseWriter, req *http.Request) {
 
 	// add unique request id from context
-	requestID, ok := req.Context().Value(pkg.RequestIDKey).(uuid.UUID)
+	requestID, ok := req.Context().Value(mid.RequestIDKey).(uuid.UUID)
 	if !ok || requestID == uuid.Nil {
 		fmt.Fprintln(w, "this a request without requestID")
 		return

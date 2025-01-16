@@ -1,8 +1,20 @@
 services:
   greeter-api:
-    image: iqhater/greeter_api:latest
+    # image: iqhater/greeter_api:latest
+    build:
+      context: ..
+      dockerfile: ./deployments/Dockerfile
     container_name: greeter-api
-    env_file:
-      - ../.env
+
+    # WARNING: env_file loads .env file WITHOUT using godotenv library in go
+    # Issue stackoverflow link https://stackoverflow.com/questions/66314534/env-variables-not-coming-through-godotenv-docker
+    # env_file:
+    # - ../.env
+
     ports:
       - "4242:4242"
+
+      # Swagger/OpenAPI webserver documentation
+      - "3200:3200"
+    volumes:
+      - ../.env:/app/.env

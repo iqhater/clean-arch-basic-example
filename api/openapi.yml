@@ -11,7 +11,7 @@ info:
     name: MIT
     url: "https://opensource.org/license/mit/"
 servers:
-  - url: "https://dev.envdev.space/docs/openapi/greet-api"
+  - url: "https://api.envdev.space/docs/openapi/greet-api"
 paths:
   /greet:
     get:

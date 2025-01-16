@@ -21,10 +21,7 @@ env:
 
   # App entrypoint path
   APP_ENTRYPOINT: ./cmd/greeter
-
-# Global variables
-# vars:
-#   PLATFORMS: ["darwin", "linux", "windows.exe"]
+  API_DOCS_ENTRYPOINT: ./cmd/api-docs
 
 tasks:
   
@@ -48,6 +45,13 @@ tasks:
       - $GOBUILD -o ${BINARY_NAME}_${PLATFORM} $APP_ENTRYPOINT
       - echo "📦 Build Done"
 
+  # Build api docs
+  build:docs:
+    silent: true
+    cmds:
+      - $GOBUILD -o ${BINARY_NAME}_${PLATFORM} $API_DOCS_ENTRYPOINT
+      - echo "📦 Build Done"
+
   # Build app for all platforms
   build-all:
     cmds:
@@ -63,14 +67,21 @@ tasks:
       - echo "🚀 Running App"
       - ./${BINARY_NAME}_${PLATFORM}
 
+  # Build and run API docs server
+  run:docs:
+    silent: true
+    deps: [build:docs]
+    cmds:
+      - echo "🚀 Running API Docs Server"
+      - ./${BINARY_NAME}_${PLATFORM}
+
   # Build Docker Image
   build:docker:
     silent: true
     cmds:
       - echo "📦 Build & Tag Docker Image"
-      - docker build -t ${BINARY_NAME}_local ./deployments/.
-      - docker tag ${BINARY_NAME}_local:latest ${BINARY_NAME}_local:staging
-      - docker-compose -f ./deployments/docker-compose.yml up -d
+      - docker buildx build -f ./deployments/Dockerfile . -t "${BINARY_NAME}:local" 
+      # - docker tag ${BINARY_NAME}:latest ${BINARY_NAME}:staging
 
   # Run in docker
   run:docker:

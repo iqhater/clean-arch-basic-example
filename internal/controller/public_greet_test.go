@@ -9,7 +9,7 @@ import (
 
 	infra "clean_arch_basic_example/internal/infrastructure"
 	srv "clean_arch_basic_example/internal/usecase"
-	"clean_arch_basic_example/pkg"
+	mid "clean_arch_basic_example/pkg/middleware"
 
 	"github.com/google/uuid"
 )
@@ -24,7 +24,7 @@ func TestGreetHandlerValid(t *testing.T) {
 	name := "Bob"
 	requestID := uuid.New()
 
-	ctx := context.WithValue(context.Background(), pkg.RequestIDKey, requestID)
+	ctx := context.WithValue(context.Background(), mid.RequestIDKey, requestID)
 	ctx2 := context.WithValue(ctx, contextNameKey, name)
 	req := httptest.NewRequestWithContext(ctx2, http.MethodGet, "/greet", nil)
 	rr := httptest.NewRecorder()

@@ -4,8 +4,8 @@ import (
 	ctrl "clean_arch_basic_example/internal/controller"
 	infra "clean_arch_basic_example/internal/infrastructure"
 	srv "clean_arch_basic_example/internal/usecase"
-	"clean_arch_basic_example/pkg"
 	"clean_arch_basic_example/pkg/logger"
+	mid "clean_arch_basic_example/pkg/middleware"
 	"fmt"
 	"log"
 	"net/http"
@@ -30,7 +30,7 @@ func Run() {
 	controllerWithCounter := ctrl.NewPrivateGreetController(serviceWithCounter)
 
 	// router init
-	http.HandleFunc("/greet", logger.Log(ctrl.ValidateRequest(pkg.RequestID(controller.GreetHandler))))
+	http.HandleFunc("/greet", logger.Log(ctrl.ValidateRequest(mid.RequestID(controller.GreetHandler))))
 	http.HandleFunc("/greet/{id}", logger.Log(ctrl.ValidateRequest(controllerWithCounter.GreetPrivateHandler)))
 
 	// server init
