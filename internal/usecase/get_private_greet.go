@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	infra "clean_arch_basic_example/internal/infrastructure"
+	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
 )
 
 // static check interface implementation

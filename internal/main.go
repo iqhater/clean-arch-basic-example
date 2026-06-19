@@ -1,14 +1,14 @@
 package internal
 
 import (
-	ctrl "clean_arch_basic_example/internal/controller"
-	infra "clean_arch_basic_example/internal/infrastructure"
-	srv "clean_arch_basic_example/internal/usecase"
-	"clean_arch_basic_example/pkg/logger"
-	mid "clean_arch_basic_example/pkg/middleware"
 	"fmt"
 	"log"
 	"net/http"
+
+	ctrl "github.com/iqhater/clean-arch-basic-example/internal/controller"
+	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
+	srv "github.com/iqhater/clean-arch-basic-example/internal/usecase"
+	mid "github.com/iqhater/pkg/middleware"
 )
 
 // init
@@ -30,8 +30,8 @@ func Run() {
 	controllerWithCounter := ctrl.NewPrivateGreetController(serviceWithCounter)
 
 	// router init
-	http.HandleFunc("/greet", logger.Log(ctrl.ValidateRequest(mid.RequestID(controller.GreetHandler))))
-	http.HandleFunc("/greet/{id}", logger.Log(ctrl.ValidateRequest(controllerWithCounter.GreetPrivateHandler)))
+	http.HandleFunc("/greet", mid.Log(ctrl.ValidateRequest(mid.RequestID(http.HandlerFunc(controller.GreetHandler)))).ServeHTTP)
+	http.HandleFunc("/greet/{id}", mid.Log(ctrl.ValidateRequest(http.HandlerFunc(controllerWithCounter.GreetPrivateHandler))).ServeHTTP)
 
 	// server init
 	fmt.Printf("🌐 Clean Arch Example API server started on port: %s\n", cfg.HTTP_PORT)

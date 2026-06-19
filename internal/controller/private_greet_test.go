@@ -1,14 +1,15 @@
 package controller
 
 import (
-	infra "clean_arch_basic_example/internal/infrastructure"
-	"clean_arch_basic_example/internal/usecase"
 	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"testing"
+
+	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
+	"github.com/iqhater/clean-arch-basic-example/internal/usecase"
 )
 
 func TestGreetPrivateHandlerValid(t *testing.T) {

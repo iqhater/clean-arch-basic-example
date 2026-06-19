@@ -1,3 +1,4 @@
+# docker buildx build -f .\deployments\Dockerfile . -t="greeter-api:local"
 services:
   greeter-api:
     # image: iqhater/greeter_api:latest
@@ -17,4 +18,4 @@ services:
       # Swagger/OpenAPI webserver documentation
       - "3200:3200"
     volumes:
-      - ../.env:/app/.env
+      - $PWD/.env:/app/.env:ro

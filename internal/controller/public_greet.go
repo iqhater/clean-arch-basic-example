@@ -1,14 +1,13 @@
 package controller
 
 import (
-	srv "clean_arch_basic_example/internal/usecase"
-	mid "clean_arch_basic_example/pkg/middleware"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/google/uuid"
+	srv "github.com/iqhater/clean-arch-basic-example/internal/usecase"
+	mid "github.com/iqhater/pkg/middleware"
 )
 
 type contextKey string
@@ -16,8 +15,8 @@ type contextKey string
 const contextNameKey contextKey = "name"
 
 type ResponsePublicGreetDTO struct {
-	RequestID uuid.UUID `json:"request_id"`
-	Title     string    `json:"greeting"`
+	RequestID string `json:"request_id"`
+	Title     string `json:"greeting"`
 }
 
 // controller/handler
@@ -36,11 +35,7 @@ func NewGreetController(greetService *srv.GreetService) *GreetController {
 func (g *GreetController) GreetHandler(w http.ResponseWriter, req *http.Request) {
 
 	// add unique request id from context
-	requestID, ok := req.Context().Value(mid.RequestIDKey).(uuid.UUID)
-	if !ok || requestID == uuid.Nil {
-		fmt.Fprintln(w, "this a request without requestID")
-		return
-	}
+	requestID := mid.IDFromContext(req.Context())
 
 	// name and method request validations are located in separate validateRequest middleware
 	// get id and name params from context

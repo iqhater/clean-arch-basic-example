@@ -7,9 +7,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	infra "clean_arch_basic_example/internal/infrastructure"
-	srv "clean_arch_basic_example/internal/usecase"
-	mid "clean_arch_basic_example/pkg/middleware"
+	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
+	srv "github.com/iqhater/clean-arch-basic-example/internal/usecase"
+	mid "github.com/iqhater/pkg/middleware"
 
 	"github.com/google/uuid"
 )
@@ -22,7 +22,7 @@ func TestGreetHandlerValid(t *testing.T) {
 	greetController := NewGreetController(greeterServiceMock)
 
 	name := "Bob"
-	requestID := uuid.New()
+	requestID := uuid.New().String()
 
 	ctx := context.WithValue(context.Background(), mid.RequestIDKey, requestID)
 	ctx2 := context.WithValue(ctx, contextNameKey, name)

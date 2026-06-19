@@ -1,8 +1,9 @@
 package usecase
 
 import (
-	infra "clean_arch_basic_example/internal/infrastructure"
 	"testing"
+
+	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
 )
 
 func TestGetGreetingsWithCounterValid(t *testing.T) {

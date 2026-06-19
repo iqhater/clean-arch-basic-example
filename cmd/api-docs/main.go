@@ -1,11 +1,12 @@
 package main
 
 import (
-	"clean_arch_basic_example/pkg/logger"
 	"fmt"
 	"log"
 	"net/http"
 	"time"
+
+	mid "github.com/iqhater/pkg/middleware"
 )
 
 // OpenAPI docs
@@ -17,7 +18,7 @@ func main() {
 	mux.Handle("/api/", http.StripPrefix("/api/", http.FileServer(http.Dir("./api"))))
 
 	// redirect to from / to /api/redoc.html
-	mux.HandleFunc("/", logger.Log(func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", mid.Bind(mid.Log, func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/api/redoc.html", http.StatusMovedPermanently)
 	}))
 

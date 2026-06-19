@@ -1,7 +1,7 @@
 package main
 
 import (
-	app "clean_arch_basic_example/internal"
+	app "github.com/iqhater/clean-arch-basic-example/internal"
 )
 
 // run app

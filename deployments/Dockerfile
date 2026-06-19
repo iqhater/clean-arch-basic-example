@@ -26,6 +26,7 @@ FROM scratch
 
 # copy golang binary into container
 COPY --from=builder /app/greeter_api /app/
+# COPY --from=builder /app/.env .
 
 # executable
 CMD ["/app/greeter_api"]

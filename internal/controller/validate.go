@@ -7,7 +7,7 @@ import (
 )
 
 // ValidateRequest middleware handler check and validate user requset
-func ValidateRequest(next http.HandlerFunc) http.HandlerFunc {
+func ValidateRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 
 		// check on correct request method

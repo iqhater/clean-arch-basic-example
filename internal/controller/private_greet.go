@@ -1,12 +1,13 @@
 package controller
 
 import (
-	srv "clean_arch_basic_example/internal/usecase"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+
+	srv "github.com/iqhater/clean-arch-basic-example/internal/usecase"
 )
 
 const contextIDKey contextKey = "id"
