@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:alpine3.21 AS builder
+FROM --platform=${BUILDPLATFORM} golang:1.26-alpine3.24 AS builder
 
 # enable go modules
 ENV GO111MODULE=on
