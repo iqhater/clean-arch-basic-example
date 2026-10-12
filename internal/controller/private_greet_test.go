@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"testing"
 
+	"github.com/iqhater/clean-arch-basic-example/internal/domain"
 	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
 	"github.com/iqhater/clean-arch-basic-example/internal/usecase"
 )
@@ -16,7 +17,7 @@ func TestGreetPrivateHandlerValid(t *testing.T) {
 
 	// arrange
 	greeterPrivateRepoMock := &infra.GreetPrivateMockDB{
-		IDs: map[int]infra.GreetingsCounter{
+		IDs: map[int]domain.GreetingsCounter{
 			42: 0,
 		},
 	}

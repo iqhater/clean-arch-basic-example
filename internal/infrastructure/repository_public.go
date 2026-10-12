@@ -4,6 +4,8 @@ import (
 	"io"
 	"log"
 	"os"
+
+	"github.com/iqhater/clean-arch-basic-example/internal/domain"
 )
 
 // static check interface implementation
@@ -11,7 +13,7 @@ var _ GreeterRepo = (*GreetFileDB)(nil)
 
 // repository
 type GreeterRepo interface {
-	GetGreet() (*UserGreetPublic, error)
+	GetGreet() (*domain.UserGreetPublic, error)
 }
 
 // db implementation
@@ -27,8 +29,8 @@ func NewGreetRepository(db string) *GreetFileDB {
 }
 
 // get from file/db implementation
-func (db *GreetFileDB) GetGreet() (*UserGreetPublic, error) {
-	return &UserGreetPublic{
+func (db *GreetFileDB) GetGreet() (*domain.UserGreetPublic, error) {
+	return &domain.UserGreetPublic{
 		Title: string(readDataFromFile(db.path)),
 	}, nil
 }

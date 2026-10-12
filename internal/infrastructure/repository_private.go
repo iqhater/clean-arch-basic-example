@@ -3,6 +3,8 @@ package infrastructure
 import (
 	"errors"
 	"sync"
+
+	"github.com/iqhater/clean-arch-basic-example/internal/domain"
 )
 
 // static check interface implementation
@@ -10,13 +12,13 @@ var _ GreeterPrivateRepo = (*GreetPrivateFileDB)(nil)
 
 // repository
 type GreeterPrivateRepo interface {
-	GetGreetingsWithCounter(id int) (*UserGreetPrivate, error)
+	GetGreetingsWithCounter(id int) (*domain.UserGreetPrivate, error)
 }
 
 // db implementation
 type GreetPrivateFileDB struct {
 	path string
-	ids  map[int]GreetingsCounter
+	ids  map[int]domain.GreetingsCounter
 	mu   sync.RWMutex
 }
 
@@ -24,7 +26,7 @@ type GreetPrivateFileDB struct {
 func NewPrivateGreetRepository(db string) *GreetPrivateFileDB {
 	return &GreetPrivateFileDB{
 		path: db,
-		ids: map[int]GreetingsCounter{
+		ids: map[int]domain.GreetingsCounter{
 			1: 0,
 			2: 0,
 			3: 0,
@@ -33,13 +35,13 @@ func NewPrivateGreetRepository(db string) *GreetPrivateFileDB {
 }
 
 // get from file/db implementation
-func (db *GreetPrivateFileDB) GetGreetingsWithCounter(id int) (*UserGreetPrivate, error) {
+func (db *GreetPrivateFileDB) GetGreetingsWithCounter(id int) (*domain.UserGreetPrivate, error) {
 
 	if !db.isIDExist(id) {
-		return &UserGreetPrivate{}, errors.New("ID does not exist!")
+		return &domain.UserGreetPrivate{}, errors.New("ID does not exist!")
 	}
 
-	return &UserGreetPrivate{
+	return &domain.UserGreetPrivate{
 		ID:      id,
 		Title:   string(readDataFromFile(db.path)),
 		Counter: db.incrementCounter(id),
@@ -57,7 +59,7 @@ func (db *GreetPrivateFileDB) isIDExist(id int) bool {
 	return true
 }
 
-func (db *GreetPrivateFileDB) incrementCounter(id int) GreetingsCounter {
+func (db *GreetPrivateFileDB) incrementCounter(id int) domain.GreetingsCounter {
 	db.mu.Lock()
 	defer db.mu.Unlock()
 

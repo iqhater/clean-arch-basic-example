@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"github.com/iqhater/clean-arch-basic-example/internal/domain"
 	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
 )
 
@@ -9,7 +10,7 @@ var _ GreeterPrivateService = (*GreetPrivateService)(nil)
 
 // usecase/service
 type GreeterPrivateService interface {
-	GetGreetingsWithCounter(id int, name string) (*infra.UserGreetPrivate, error)
+	GetGreetingsWithCounter(id int, name string) (*domain.UserGreetPrivate, error)
 }
 
 // service implementation
@@ -25,7 +26,7 @@ func NewPrivateGreetService(greetPrivateRepo infra.GreeterPrivateRepo) *GreetPri
 }
 
 // get private greeting implementation
-func (g *GreetPrivateService) GetGreetingsWithCounter(id int, name string) (*infra.UserGreetPrivate, error) {
+func (g *GreetPrivateService) GetGreetingsWithCounter(id int, name string) (*domain.UserGreetPrivate, error) {
 
 	// return greetings counter for registered user
 	privateGreeting, err := g.greetPrivateRepo.GetGreetingsWithCounter(id)

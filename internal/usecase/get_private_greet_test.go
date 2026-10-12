@@ -3,6 +3,7 @@ package usecase
 import (
 	"testing"
 
+	"github.com/iqhater/clean-arch-basic-example/internal/domain"
 	infra "github.com/iqhater/clean-arch-basic-example/internal/infrastructure"
 )
 
@@ -10,7 +11,7 @@ func TestGetGreetingsWithCounterValid(t *testing.T) {
 
 	// arrange
 	repo := &infra.GreetPrivateMockDB{
-		IDs: map[int]infra.GreetingsCounter{
+		IDs: map[int]domain.GreetingsCounter{
 			1: 0,
 		},
 	}
@@ -36,7 +37,7 @@ func TestGetGreetingsWithCounterIDValid(t *testing.T) {
 
 	// arrange
 	repo := &infra.GreetPrivateMockDB{
-		IDs: map[int]infra.GreetingsCounter{
+		IDs: map[int]domain.GreetingsCounter{
 			42: 0,
 		},
 	}
@@ -58,7 +59,7 @@ func TestGetGreetingsWithCounterIDInvalid(t *testing.T) {
 
 	// arrange
 	repo := &infra.GreetPrivateMockDB{
-		IDs: map[int]infra.GreetingsCounter{
+		IDs: map[int]domain.GreetingsCounter{
 			42: 0,
 		},
 	}
